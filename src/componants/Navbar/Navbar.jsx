@@ -1,8 +1,28 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import "./navbar.css"
+import { AuthContext } from '../ContextProvider/Providers';
 
 const Navbar = () => {
+
+    const {user,signOutuser} = useContext(AuthContext)
+    // const {name} = useContext(AuthContext)
+    // console.log(amarname);
+    // console.log(name);
+
+    const handleSignOut=()=>{
+        signOutuser()
+        .then(res=>{
+            log(res)
+        })
+        .catch(err=>{
+            console.log(err);
+            
+        })
+    }
+    
+    
+    
 
     const navStyle ={
         border: '2px solid green',
@@ -12,8 +32,11 @@ const Navbar = () => {
     }
     const links = <>
             <NavLink className={`hover:bg-green-700 hover:text-white`} style={navStyle} to="/">Home</NavLink>              
-            <NavLink style={navStyle} to="/register">Register</NavLink>              
-            <NavLink style={navStyle} to="/login">Login</NavLink>              
+            <NavLink style={navStyle} to="/register">Register</NavLink>
+            {
+                user? <Link onClick={handleSignOut}>sign out</Link> : <NavLink style={navStyle} to="/login">Login</NavLink>
+            }              
+                          
             
     </>
     return (
